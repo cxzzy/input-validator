@@ -1,0 +1,12 @@
+{
+    "name": "wies/input-validator",
+    "description": "Input validator for checking form data and individual input.",
+    "type": "input-validator",
+    "authors": [
+        {
+            "name": "Wies Kueter",
+            "email": "hi@wieskueter.com"
+        }
+    ],
+    "require": {}
+}
