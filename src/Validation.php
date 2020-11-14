@@ -1,4 +1,6 @@
 <?php
+    namespace wies\inputValidator;
+
     class Validation 
     {
         public function __construct() 

@@ -10,5 +10,8 @@
             "email": "hi@wieskueter.com"
         }
     ],
+    "autoload": {
+        "psr-4": {"wies\\inputValidator\\": "src/"}
+    },
     "require": {}
 }
