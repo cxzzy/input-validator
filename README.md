@@ -1,6 +1,9 @@
 # input-validator
 Validate input in PHP and JavaScript
 
+Run:
+composer require wies/input-validator:dev-master
+
 # 1. Validation rules
 Validation rules as an array for post data. The key is the field name the value are the rules separated by a pipe.
 ```php
