@@ -69,7 +69,7 @@ class Validation
 
     private function required($field) 
     {
-        if ($_POST[$field] == '') {
+        if (isset($_POST[$field]) && $_POST[$field] == '') {
             $error = $field . ' is required';
             $this->validationErrors->addError($field, $error);
         }
@@ -180,13 +180,13 @@ Class Errors
         return $this->errors;
     }
 
-    public function first($field, $message)
+    public function first($field, $message = '')
     {
         $field_error = (isset($this->errors[$field][0])) ? $this->errors[$field][0] : false;
 
-        if ($field_error === true) {
-            return '<p class="error">'. $message .'</p>';
-        } else if($field_error && $message != '') {
+        if ($message == '') {
+            return $field_error;
+        } elseif ($field_error) {
             return '<p class="error">'. $message .'</p>';
         }
     }
