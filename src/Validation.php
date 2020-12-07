@@ -69,7 +69,7 @@ class Validation
 
     private function required($field) 
     {
-        if (isset($_POST[$field]) && $_POST[$field] == '') {
+        if (!isset($_POST[$field]) || $_POST[$field] == '') {
             $error = $field . ' is required';
             $this->validationErrors->addError($field, $error);
         }
