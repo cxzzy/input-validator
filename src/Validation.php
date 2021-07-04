@@ -16,6 +16,10 @@ class Validation
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             foreach ($fields as $field => $rules) {
+                if (!isset($_POST[$field])) {
+                    return;
+                }
+                
                 $this->errors[$field] = array();
                 $this->validationErrors->prepareErrorArray($field);
 
@@ -28,6 +32,10 @@ class Validation
 
                     if ($rule == 'required') {
                         $this->required($field);
+                    }
+
+                    if ($rule == 'phone') {
+                        $this->phone($field);
                     }
 
                     if ($rule == 'email') {
@@ -55,7 +63,7 @@ class Validation
                     }
 
                     if (preg_match('/^max_words$/', $rule, $match)) {
-                        $this->max_word_count($field, $rule_value);
+                        $this->maxWordCount($field, $rule_value);
                     }
 
                     if (isset($error)) {
@@ -75,7 +83,7 @@ class Validation
         }
     }
 
-    private function max_word_count($field, $max) 
+    private function maxWordCount($field, $max) 
     {
         if (str_word_count($_POST[$field]) > $max) {
             $error = 'Max words used';
@@ -102,7 +110,7 @@ class Validation
     private function gt($field_1, $field_2) 
     {
         if ($field_1 < $field_2) {
-            $error = $field_1 . ' must be the greater than '. $field_2;
+            $error = "$field_1 must be the greater than $field_2";
             $this->validationErrors->addError($field, $error);
         }
     }
@@ -115,9 +123,17 @@ class Validation
         }
     }
 
-    /*
-        https://stackoverflow.com/a/12026863
-    */
+    private function phone($field)
+    {
+        $phoneNumber = preg_replace('/[^0-9]/i', '', $_POST[$field]);
+        $phoneNumberLength = strlen($phoneNumber);
+        if ($phoneNumberLength < 7 || $phoneNumberLength > 10) {
+            $error = "Phonenumber not valid";
+            $this->validationErrors->addError($field, $error);
+        }
+    }
+
+    // https://stackoverflow.com/a/12026863
     private function email($field) 
     {
         if (!filter_var($_POST[$field], FILTER_VALIDATE_EMAIL)) {
@@ -148,12 +164,8 @@ class Validation
         }
     }
 
-    public function test_errors() 
+    public function errors() 
     {
-        return $this->errors;
-    }
-
-    public function errors() {
         return $this->validationErrors;
     }
 }
@@ -180,13 +192,25 @@ Class Errors
         return $this->errors;
     }
 
+    public function css($field)
+    {
+        if ($this->fieldHasError($field)) {
+            return 'input-error';
+        }
+    }
+
+    public function fieldHasError($field)
+    {
+        return (isset($this->errors[$field][0])) ? $this->errors[$field][0] : false;
+    }
+
     public function first($field, $message = '')
     {
-        $field_error = (isset($this->errors[$field][0])) ? $this->errors[$field][0] : false;
+        $fieldError = $this->fieldHasError($field);
 
         if ($message == '') {
-            return $field_error;
-        } elseif ($field_error) {
+            return $fieldError;
+        } elseif ($fieldError) {
             return '<p class="error">'. $message .'</p>';
         }
     }
