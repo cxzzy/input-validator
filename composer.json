@@ -2,11 +2,12 @@
     "name": "wies/input-validator",
     "description": "Input validator for checking form data and individual input.",
     "version": "dev-master",
+    "minimum-stability": "dev",
     "license": "MIT",
     "type": "input-validator",
     "authors": [
         {
-            "name": "Wies Kueter",
+            "name": "Wies",
             "email": "hi@wieskueter.com"
         }
     ],
