@@ -9,7 +9,6 @@ class Validation
         $request = new Request();
 
         $this->validationErrors = new Errors();
-        //print_r($validationErrors->first());
     }
 
     public function validate($fields) 
@@ -19,7 +18,7 @@ class Validation
                 if (!isset($_POST[$field])) {
                     return;
                 }
-                
+
                 $this->errors[$field] = array();
                 $this->validationErrors->prepareErrorArray($field);
 
@@ -39,7 +38,7 @@ class Validation
                     }
 
                     if ($rule == 'email') {
-                        $this->email($field);
+                        $error = self::email($field);
                     }
 
                     if ($rule == 'dutch_zipcode') {
@@ -134,11 +133,10 @@ class Validation
     }
 
     // https://stackoverflow.com/a/12026863
-    private function email($field) 
+    public static function email($field) 
     {
         if (!filter_var($_POST[$field], FILTER_VALIDATE_EMAIL)) {
-            $error = 'E-mail not valid';
-            $this->validationErrors->addError($field, $error);
+            return 'E-mail not valid';
         }
     }
 
