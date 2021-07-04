@@ -1,8 +1,7 @@
 {
     "name": "wies/input-validator",
     "description": "Input validator for checking form data and individual input.",
-    "version": "dev-master",
-    "minimum-stability": "dev",
+    "version": "v1.0.0",
     "license": "MIT",
     "type": "input-validator",
     "authors": [
